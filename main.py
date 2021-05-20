@@ -11,10 +11,16 @@ import time
 import logging
 from model import Discriminator
 from model import Generator
-from data_loader import DataLoader
+from data_loader import *
 from logger import Logger
 from utils import make_gif
+import argparse
 os.environ["CUDA_VISIBLE_DEVICES"]="1"
+
+parser = argparse.ArgumentParser(description='cot')
+
+parser.add_argument('-d', '--dname', type=str, default='mmnist',
+                        choices=['animation', 'human_action', 'ucf', 'kth', 'penn_action', 'mmnist', 'mazes'])
 
 # Custom weights initialization called on netG and netD
 def weights_init(m):
@@ -76,7 +82,26 @@ loss_function = nn.CrossEntropyLoss()
 d_optim = torch.optim.Adam(discriminator.parameters(), lr, [0.5, 0.999])
 g_optim = torch.optim.Adam(generator.parameters(), lr, [0.5, 0.999])
 
-dataloader = DataLoader(batchSize)
+
+train_data = load_dataset(dname)
+
+dataloader = DataLoader(train_data,
+                          num_workers=5,
+                          batch_size=opt.batch_size,
+                          shuffle=True,
+                          drop_last=True,
+                          pin_memory=True)
+
+
+def get_training_batch():
+    while True:
+        for sequence in dataloader:
+            batch = utils.normalize_data(dname, sequence)
+            yield batch
+
+dataloader = get_training_batch()
+
+#dataloader = DataLoader(batchSize)
 data_size = len(dataloader.train_index)
 num_batch = data_size//batchSize
 #text_logger.info('Total number of videos for train = ' + str(data_size))
@@ -134,22 +159,6 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
             }
             for tag,value in info.items():
                 logger.scalar_summary(tag, value, counter)
-
-            '''
-            # Calculate validation loss
-            videos = to_variable(dataloader.get_batch('test').permute(0,2,1,3,4)) # [64,3, 32, 64, 64]
-            first_frame = videos[:,:,0:1,:,:]
-            fake_videos = generator(first_frame)
-            outputs = discriminator(fake_videos).squeeze()
-            gen_first_frame = fake_videos[:,:,0:1,:,:]
-            err = torch.mean(torch.abs(first_frame - gen_first_frame)) * l1_lambda
-            g_val_loss = loss_function(outputs, real_labels) + err
-            info = {
-                'g_val_loss' : g_val_loss.data[0],
-            }
-            for tag,value in info.items():
-                logger.scalar_summary(tag, value, counter)
-            '''
 
         n_updates += 1
 
