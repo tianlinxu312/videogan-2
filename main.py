@@ -10,6 +10,7 @@ from torch.autograd import Variable
 import time
 import logging
 from model import Discriminator
+from torch.utils.data import DataLoader
 from model import Generator
 from data_loader import *
 from logger import Logger
