@@ -26,6 +26,7 @@ DATA_ROOT = '/srv/bat/data/frames-stable-many/'
 def load_dataset(dataset):
     if dataset == 'mmnist':
         from data.moving_mnist import MovingMNIST
+        # train_data = MovingMNIST(train=True, data_root='../data/mmnist/mnist_test_set.npy')
         train_data = MovingMNIST(train=True)
     elif dataset == 'kth':
         from data.kth import KTH

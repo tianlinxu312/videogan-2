@@ -1,5 +1,6 @@
 import numpy as np
-#from torchvision import datasets, transforms
+from torchvision import datasets, transforms
+import torch
 
 
 class MovingMNIST(object):
@@ -17,7 +18,7 @@ class MovingMNIST(object):
         self.deterministic = deterministic
         self.seed_is_set = False # multi threaded loading
         self.channels = 1
-        self.sample_size = 8000
+        # self.sample_size = 8000
         self.counter = 0
         self.dataset = None
 
@@ -32,7 +33,8 @@ class MovingMNIST(object):
     def load_dataset(self):
         training_data = np.load(self.path) / 255.0
         training_data = np.transpose(training_data, (1, 0, 2, 3)).astype(np.float32)
-        training_data = np.reshape(training_data, [self.sample_size, self.seq_len, self.image_size, self.image_size, 1])
+        sample_size = training_data.shape[0]
+        training_data = np.reshape(training_data, [sample_size, self.seq_len, self.image_size, self.image_size, 1])
         training_data = np.transpose(training_data, (0, 1, 2, 4, 3))
         training_data = np.transpose(training_data, (0, 1, 3, 2, 4))
         training_data = np.transpose(training_data, (0, 2, 1, 3, 4))
@@ -41,6 +43,6 @@ class MovingMNIST(object):
     def __getitem__(self, index):
         self.set_seed(index)
         self.load_dataset()
-        x = self.dataset[int(self.counter % self.sample_size)]
+        x = self.dataset[index]
         self.counter += 1
         return torch.from_numpy(x)

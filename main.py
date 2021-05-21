@@ -106,7 +106,7 @@ def get_batch():
 training_batch_generator = get_batch()
 
 if args.dname == "mmnist":
-    data_size = 8000
+    data_size = 2000
 elif args.dname == "kth":
     data_size = 540
 else:
