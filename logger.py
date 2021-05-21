@@ -1,6 +1,6 @@
 # Code referenced from https://gist.github.com/gyglim/1f8dfb1b5c82627ae3efcfbbadb9f514
 # Tensorboard logger for PyTorch
-import tensorflow.compat.v1 as tf
+import tensorflow as tf
 import numpy as np
 import scipy.misc 
 try:
@@ -12,7 +12,7 @@ class Logger(object):
 
     def __init__(self, log_dir):
         """Create a summary writer logging to log_dir."""
-        self.writer = tf.summary.FileWriter(log_dir)
+        self.writer = tf.summary.create_file_writer(log_dir)
 
     def scalar_summary(self, tag, value, step):
         """Log a scalar variable."""
