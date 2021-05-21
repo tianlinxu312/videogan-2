@@ -103,7 +103,7 @@ def get_batch():
             yield batch
 
 
-training_batch_generator = get_training_batch()
+training_batch_generator = get_batch()
 
 if args.dname == "mmnist":
     data_size = 8000
