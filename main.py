@@ -22,6 +22,8 @@ parser = argparse.ArgumentParser(description='cot')
 parser.add_argument('-d', '--dname', type=str, default='mmnist',
                         choices=['animation', 'human_action', 'ucf', 'kth', 'penn_action', 'mmnist', 'mazes'])
 
+args = parser.parse_args()
+
 # Custom weights initialization called on netG and netD
 def weights_init(m):
     classname = m.__class__.__name__
