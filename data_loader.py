@@ -12,7 +12,12 @@ from torch.autograd import Variable
 import imageio
 
 hostname = socket.gethostname()
-dtype = torch.cuda.FloatTensor
+if torch.cuda.is_available():
+    use_cuda = True
+    dtype = torch.cuda.FloatTensor
+else:
+    use_cuda = False
+    dtype = torch.FloatTensor
 
 GOLF_DATA_LISTING = '/srv/bat/data/frames-stable-many/golf.txt'
 DATA_ROOT = '/srv/bat/data/frames-stable-many/'
