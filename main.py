@@ -92,15 +92,6 @@ dataloader = DataLoader(train_data,
                           drop_last=True,
                           pin_memory=True)
 
-
-def get_training_batch():
-    while True:
-        for sequence in dataloader:
-            batch = utils.normalize_data(dname, sequence)
-            yield batch
-
-dataloader = get_training_batch()
-
 #dataloader = DataLoader(batchSize)
 data_size = len(dataloader.train_index)
 num_batch = data_size//batchSize

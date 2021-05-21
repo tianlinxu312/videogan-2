@@ -17,14 +17,14 @@ GOLF_DATA_LISTING = '/srv/bat/data/frames-stable-many/golf.txt'
 DATA_ROOT = '/srv/bat/data/frames-stable-many/'
 
 
-def load_dataset(opt):
-    if opt.dataset == 'mmnist':
+def load_dataset(dataset):
+    if dataset == 'mmnist':
         from data.moving_mnist import MovingMNIST
         train_data = MovingMNIST(train=True)
-    elif opt.dataset == 'kth':
+    elif dataset == 'kth':
         from data.kth import KTH
         train_data = KTH(train=True)
-    elif opt.dataset == 'mazes':
+    elif dataset == 'mazes':
         from data.mazes import DataReader
         data_reader = DataReader(dataset=dataset, time_steps=48)
         train_data = data_reader.provide_dataset()
