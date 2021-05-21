@@ -1,6 +1,6 @@
 # Code referenced from https://gist.github.com/gyglim/1f8dfb1b5c82627ae3efcfbbadb9f514
 # Tensorboard logger for PyTorch
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import numpy as np
 import scipy.misc 
 try:
