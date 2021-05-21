@@ -95,8 +95,13 @@ dataloader = DataLoader(train_data,
                           drop_last=True,
                           pin_memory=True)
 
-#dataloader = DataLoader(batchSize)
-data_size = len(dataloader.train_index)
+if args.dname == "mmnist":
+    data_size = 8000
+elif args.dname == "kth":
+    data_size = 540
+else:
+    data_size = 900
+
 num_batch = data_size//batchSize
 #text_logger.info('Total number of videos for train = ' + str(data_size))
 #text_logger.info('Total number of batches per echo = ' + str(num_batch))
