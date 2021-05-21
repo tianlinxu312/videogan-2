@@ -43,4 +43,4 @@ class MovingMNIST(object):
         self.load_dataset()
         x = self.dataset[int(self.counter % self.sample_size)]
         self.counter += 1
-        return x
+        return torch.from_numpy(x)
