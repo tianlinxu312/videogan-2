@@ -128,7 +128,7 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
     n_updates = 1
     for batch_index in range(num_batch):
         videos = next(training_batch_generator)
-        videos = to_variable(videos)
+        # videos = to_variable(videos)
         real_labels = to_variable(torch.LongTensor(np.ones(batchSize, dtype = int)), requires_grad = False)
         fake_labels = to_variable(torch.LongTensor(np.zeros(batchSize, dtype = int)), requires_grad = False)
 
