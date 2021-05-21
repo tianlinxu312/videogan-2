@@ -63,7 +63,7 @@ def denorm(x):
     return nn.Tanh(out)
 
 num_epoch = 5
-batchSize = 64
+batchSize = 8
 lr = 0.0002
 l1_lambda = 10
 
@@ -83,11 +83,11 @@ d_optim = torch.optim.Adam(discriminator.parameters(), lr, [0.5, 0.999])
 g_optim = torch.optim.Adam(generator.parameters(), lr, [0.5, 0.999])
 
 
-train_data = load_dataset(dname)
+train_data = load_dataset(args.dname)
 
 dataloader = DataLoader(train_data,
                           num_workers=5,
-                          batch_size=opt.batch_size,
+                          batch_size=batchSize,
                           shuffle=True,
                           drop_last=True,
                           pin_memory=True)
