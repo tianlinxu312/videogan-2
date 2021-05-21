@@ -95,6 +95,16 @@ dataloader = DataLoader(train_data,
                           drop_last=True,
                           pin_memory=True)
 
+
+def get_batch():
+    while True:
+        for sequence in dataloader:
+            batch = normalize_data(sequence)
+            yield batch
+
+
+training_batch_generator = get_training_batch()
+
 if args.dname == "mmnist":
     data_size = 8000
 elif args.dname == "kth":
@@ -117,7 +127,7 @@ sample_input_set = False
 for current_epoch in tqdm(range(1,num_epoch+1)):
     n_updates = 1
     for batch_index in range(num_batch):
-        videos = dataloader.get_batch().permute(0,2,1,3,4) # [-1,3,32,64,64]
+        videos = next(training_batch_generator)
         videos = to_variable(videos)
         real_labels = to_variable(torch.LongTensor(np.ones(batchSize, dtype = int)), requires_grad = False)
         fake_labels = to_variable(torch.LongTensor(np.zeros(batchSize, dtype = int)), requires_grad = False)

@@ -12,6 +12,7 @@ from torch.autograd import Variable
 import imageio
 
 hostname = socket.gethostname()
+dtype = torch.cuda.FloatTensor
 
 GOLF_DATA_LISTING = '/srv/bat/data/frames-stable-many/golf.txt'
 DATA_ROOT = '/srv/bat/data/frames-stable-many/'
@@ -35,10 +36,5 @@ def sequence_input(seq):
     return [Variable(x.type(dtype)) for x in seq]
 
 
-def normalize_data(dataset, sequence):
-    if dataset == 'mmnist' or dataset == 'kth':
-        sequence.transpose_(3, 4).transpose_(2, 3)
-    else:
-        sequence.transpose_(0, 1)
-
+def normalize_data(sequence):
     return sequence_input(sequence)
