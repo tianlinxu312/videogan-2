@@ -103,4 +103,5 @@ class DataReader(object):
         frames = tf.transpose(tf.squeeze(frames[:, :self.time_steps, :, :]), (1, 0, 2, 3))
         frames = tf.transpose(frames, (0, 1, 3, 2))
         frames = tf.transpose(frames, (0, 2, 1, 3))
+        frames = tf.transpose(frames, (1, 0, 2, 3))
         return frames
