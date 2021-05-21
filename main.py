@@ -89,7 +89,7 @@ g_optim = torch.optim.Adam(generator.parameters(), lr, [0.5, 0.999])
 train_data = load_dataset(args.dname)
 
 dataloader = DataLoader(train_data,
-                          num_workers=5,
+                          num_workers=0,
                           batch_size=batchSize,
                           shuffle=True,
                           drop_last=True,
