@@ -25,6 +25,10 @@ parser.add_argument('-d', '--dname', type=str, default='mmnist',
 
 args = parser.parse_args()
 
+#training_data = np.load('../data/mmnist/mnist_test_set.npy') / 255.0
+#little_sample = training_data[:, :100, :, :]
+#np.save('../data/mmnist/mnist_little_sample.npy', little_sample)
+
 # Custom weights initialization called on netG and netD
 def weights_init(m):
     classname = m.__class__.__name__
@@ -65,7 +69,7 @@ def denorm(x):
     out = (x + 1.0) / 2.0
     return nn.Tanh(out)
 
-num_epoch = 5
+num_epoch = 100
 batchSize = 8
 lr = 0.0002
 l1_lambda = 10
@@ -128,7 +132,7 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
     n_updates = 1
     for batch_index in range(num_batch):
         videos = next(training_batch_generator)
-        # videos = to_variable(videos)
+        videos = to_variable(torch.stack(videos))
         real_labels = to_variable(torch.LongTensor(np.ones(batchSize, dtype = int)), requires_grad = False)
         fake_labels = to_variable(torch.LongTensor(np.zeros(batchSize, dtype = int)), requires_grad = False)
 
@@ -148,7 +152,7 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
             d_loss.backward()
             d_optim.step()
             info = {
-                 'd_loss': d_loss.data[0]
+                 'd_loss': d_loss.data
             }
             for tag,value in info.items():
                 logger.scalar_summary(tag, value, counter)
@@ -164,7 +168,7 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
             g_loss.backward()
             g_optim.step()
             info = {
-                'g_loss' : g_loss.data[0],
+                'g_loss' : g_loss.data,
             }
             for tag,value in info.items():
                 logger.scalar_summary(tag, value, counter)
@@ -173,20 +177,20 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
 
         if (batch_index + 1) % 5 == 0:
             text_logger.info("Epoch [%d/%d], Step[%d/%d], d_loss: %.4f, g_loss: %.4f, \
-                             g_val_loss: %.4f, time: %4.4f" \
+                              time: %4.4f" \
                              % (current_epoch, num_epoch, batch_index+1, num_batch, \
-                             d_loss.data[0], g_loss.data[0], g_val_loss.data[0], time.time()-start_time))
+                             d_loss.data, g_loss.data, time.time()-start_time))
 
         counter += 1
 
         if (batch_index + 1) % 100 == 0:
             gen_out = generator(sample_input)
 
-            save_img(sample_input.data.cpu(), DIR_TO_SAVE + 'fake_gifs_sample_%s_%s_a.jpg' % (current_epoch, batch_index))
-            make_gif(denorm(gen_out.data.cpu()[0]), DIR_TO_SAVE + 'fake_gifs_sample__%s_%s_b.gif' % (current_epoch, batch_index))
+            #save_img(sample_input.data.cpu(), DIR_TO_SAVE + 'fake_gifs_sample_%s_%s_a.jpg' % (current_epoch, batch_index))
+            #make_gif(denorm(gen_out.data.cpu()[0]), DIR_TO_SAVE + 'fake_gifs_sample__%s_%s_b.gif' % (current_epoch, batch_index))
 
-            save_img(first_frame[0].data.cpu(), DIR_TO_SAVE + 'fake_gifs_%s_%s_a.jpg' % (current_epoch, batch_index))
-            make_gif(denorm(fake_videos.data.cpu()[0]), DIR_TO_SAVE + 'fake_gifs_%s_%s_b.gif' % (current_epoch, batch_index))
+            #save_img(first_frame[0].data.cpu(), DIR_TO_SAVE + 'fake_gifs_%s_%s_a.jpg' % (current_epoch, batch_index))
+            #make_gif(denorm(fake_videos.data.cpu()[0]), DIR_TO_SAVE + 'fake_gifs_%s_%s_b.gif' % (current_epoch, batch_index))
 
             text_logger.info('Gifs saved at epoch: %d, batch_index: %d' % (current_epoch, batch_index))
 
