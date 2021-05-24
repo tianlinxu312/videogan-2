@@ -22,7 +22,7 @@ parser = argparse.ArgumentParser(description='cot')
 
 parser.add_argument('-d', '--dname', type=str, default='mmnist',
                         choices=['animation', 'human_action', 'ucf', 'kth', 'penn_action', 'mmnist', 'mazes'])
-parser.add_argument('nc', "-channels", type=int, default=1)
+parser.add_argument('-nc', "-channels", type=int, default=1)
 
 args = parser.parse_args()
 
