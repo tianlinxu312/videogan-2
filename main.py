@@ -25,10 +25,6 @@ parser.add_argument('-d', '--dname', type=str, default='mmnist',
 
 args = parser.parse_args()
 
-#training_data = np.load('../data/mmnist/mnist_test_set.npy') / 255.0
-#little_sample = training_data[:, :100, :, :]
-#np.save('../data/mmnist/mnist_little_sample.npy', little_sample)
-
 # Custom weights initialization called on netG and netD
 def weights_init(m):
     classname = m.__class__.__name__
