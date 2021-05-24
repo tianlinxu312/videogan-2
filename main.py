@@ -150,8 +150,8 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
             info = {
                  'd_loss': d_loss.data
             }
-            for tag,value in info.items():
-                logger.scalar_summary(tag, value, counter)
+            #for tag,value in info.items():
+            #    logger.scalar_summary(tag, value, counter)
         else:
             discriminator.zero_grad()
             generator.zero_grad()
@@ -166,8 +166,8 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
             info = {
                 'g_loss' : g_loss.data,
             }
-            for tag,value in info.items():
-                logger.scalar_summary(tag, value, counter)
+            #for tag,value in info.items():
+            #    logger.scalar_summary(tag, value, counter)
 
         n_updates += 1
 
