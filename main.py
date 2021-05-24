@@ -22,6 +22,7 @@ parser = argparse.ArgumentParser(description='cot')
 
 parser.add_argument('-d', '--dname', type=str, default='mmnist',
                         choices=['animation', 'human_action', 'ucf', 'kth', 'penn_action', 'mmnist', 'mazes'])
+parser.add_argument('nc', "-channels", type=int, default=1)
 
 args = parser.parse_args()
 
@@ -73,8 +74,8 @@ l1_lambda = 10
 text_logger = setup_logger('Train')
 logger = Logger('./logs')
     
-discriminator = Discriminator()
-generator = Generator()
+discriminator = Discriminator(out_channels=args.channels)
+generator = Generator(out_channels=args.channels)
 discriminator.apply(weights_init)
 generator.apply(weights_init)
 if torch.cuda.is_available():
