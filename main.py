@@ -66,7 +66,7 @@ def denorm(x):
     out = (x + 1.0) / 2.0
     return nn.Tanh(out)
 
-num_epoch = 100
+num_epoch = 1000
 batchSize = 8
 lr = 0.0002
 l1_lambda = 10
@@ -192,8 +192,8 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
             text_logger.info('Gifs saved at epoch: %d, batch_index: %d' % (current_epoch, batch_index))
 
         if (batch_index + 1) % 1000 == 0:
-            torch.save(generator.state_dict(), './generator.pkl')
-            torch.save(discriminator.state_dict(), './discriminator.pkl')
+            torch.save(generator.state_dict(), './{}/generator.pkl'.format(args.dname))
+            torch.save(discriminator.state_dict(), './{}/discriminator.pkl'.format(args.dname))
             text_logger.info('Saved the model to generator.pkl and discriminator.pkl')
             
         # Decay the learning rate
@@ -205,5 +205,5 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
             for param_group in g_optim.param_groups:
                 param_group['lr'] = lr
 
-torch.save(generator.state_dict(), './generator.pkl')
-torch.save(discriminator.state_dict(), './discriminator.pkl')
+torch.save(generator.state_dict(), './{}/generator.pkl'.format(args.dname))
+torch.save(discriminator.state_dict(), './{}/discriminator.pkl'.format(args.dname))
