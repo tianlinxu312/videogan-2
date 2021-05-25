@@ -191,7 +191,7 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
 
             text_logger.info('Gifs saved at epoch: %d, batch_index: %d' % (current_epoch, batch_index))
 
-        if (batch_index + 1) % 1000 == 0:
+        if (batch_index + 1) % 50 == 0:
             torch.save(generator.state_dict(), './{}/generator.pkl'.format(args.dname))
             torch.save(discriminator.state_dict(), './{}/discriminator.pkl'.format(args.dname))
             text_logger.info('Saved the model to generator.pkl and discriminator.pkl')
