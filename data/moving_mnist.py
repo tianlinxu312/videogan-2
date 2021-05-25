@@ -35,6 +35,7 @@ class MovingMNIST(object):
         training_data = np.reshape(training_data, [self.sample_size, self.seq_len, self.image_size, self.image_size, 1])
         training_data = np.transpose(training_data, (0, 1, 2, 4, 3))
         training_data = np.transpose(training_data, (0, 1, 3, 2, 4))
+        # output data shape = [n, channels, seq_len, h, w]
         training_data = np.transpose(training_data, (0, 2, 1, 3, 4))
         self.dataset = training_data
 
