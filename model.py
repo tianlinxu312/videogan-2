@@ -105,7 +105,8 @@ class Discriminator(nn.Module):
                 conv3d(512,1024), #[-1,512,2,4,4]
                 batchNorm5d(1024,1e-3),
                 lrelu(0.2),
-                conv3d(1024, 2, (1,4,4), (2,1,1), (0,0,0)) #[-1,2,1,1,1] because (2,4,4) is the kernel size
+                conv3d(1024, 2, (2, 4, 4), (2, 1, 1), (0, 0, 0)),
+                # conv3d(1024, 2, (1,4,4), (2,1,1), (0,0,0)) #[-1,2,1,1,1] because (2,4,4) is the kernel size
                 )
         #self.mymodules = nn.ModuleList([nn.Sequential(nn.Linear(2,1), nn.Sigmoid())])
         

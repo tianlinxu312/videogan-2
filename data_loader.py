@@ -33,7 +33,7 @@ def load_dataset(dataset):
         train_data = KTH(train=True)
     elif dataset == 'mazes':
         from data.mazes import Mazes
-        train_data = Mazes()
+        train_data = Mazes(data_root='../data/mazes/np_mazes_train.npy')
     return train_data
 
 

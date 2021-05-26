@@ -20,9 +20,9 @@ os.environ["CUDA_VISIBLE_DEVICES"]="1"
 
 parser = argparse.ArgumentParser(description='cot')
 
-parser.add_argument('-d', '--dname', type=str, default='mmnist',
+parser.add_argument('-d', '--dname', type=str, default='mazes',
                         choices=['animation', 'human_action', 'ucf', 'kth', 'penn_action', 'mmnist', 'mazes'])
-parser.add_argument('-nc', "--channels", type=int, default=1)
+parser.add_argument('-nc', "--channels", type=int, default=3)
 
 args = parser.parse_args()
 
@@ -67,7 +67,7 @@ def denorm(x):
     return nn.Tanh(out)
 
 num_epoch = 1000
-batchSize = 8
+batchSize = 2
 lr = 0.0002
 l1_lambda = 10
 
@@ -130,8 +130,8 @@ for current_epoch in tqdm(range(1,num_epoch+1)):
     for batch_index in range(num_batch):
         videos = next(training_batch_generator)
         videos = to_variable(torch.stack(videos))
-        real_labels = to_variable(torch.LongTensor(np.ones(batchSize, dtype = int)), requires_grad = False)
-        fake_labels = to_variable(torch.LongTensor(np.zeros(batchSize, dtype = int)), requires_grad = False)
+        real_labels = to_variable(torch.LongTensor(np.ones(batchSize, dtype=int)), requires_grad = False)
+        fake_labels = to_variable(torch.LongTensor(np.zeros(batchSize, dtype=int)), requires_grad = False)
 
         if not sample_input_set:
             sample_input = videos[0:1,:,0:1,:,:]
